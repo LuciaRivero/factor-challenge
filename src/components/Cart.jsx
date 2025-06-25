@@ -1,16 +1,12 @@
 import { useCart } from "../context/CartContext";
-import { ShoppingCart, Plus, Minus, Trash2 } from "lucide-react"
+import { useNavigate } from "react-router-dom";
+import { ShoppingCart, Plus, Minus, Trash2 } from "lucide-react";
+import { formatPrice, getPartialPrice } from "../utils";
+
 
 export default function Cart() {
+  const navigate = useNavigate();
   const { cart, removeFromCart, updateQuantity } = useCart();
-
-  const formatPrice = (price) => {
-    return `$${price.toLocaleString()}`
-  }
-
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0)
-  }
 
 
   return (
@@ -77,11 +73,12 @@ export default function Cart() {
 
           <div className="border-t border-white/20 pt-4 mt-6">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2 sm:gap-0">
-              <span className="text-white text-xl font-semibold">Total:</span>
-              <span className="text-white text-2xl font-bold">{formatPrice(getTotalPrice())}</span>
+              <span className="text-white text-xl font-semibold">Subtotal:</span>
+              <span className="text-white text-2xl font-bold">{formatPrice(getPartialPrice(cart))}</span>
             </div>
-            <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 rounded-2xl shadow-lg transition-all duration-200 hover:shadow-xl">
-              Finalizar Compra
+            <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 rounded-2xl shadow-lg transition-all duration-200 hover:shadow-xl"
+            onClick={() => navigate("/checkout")}>
+              Continuar
             </button>
           </div>
         </div>

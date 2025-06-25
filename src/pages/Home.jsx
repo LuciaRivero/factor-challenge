@@ -1,16 +1,34 @@
-import { products } from "../data/products";
+import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
+import Loader from '../components/Loader';
+import Error from '../components/Error'
 
-import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
-
-
+import { fetchProducts } from '../services/index';
 
 export default function Home() {
- const { user } = useAuth();
-  if (!user) return <Navigate to="/login" />;
 
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getProducts();
+  }, []);
+
+  if (loading) return <Loader/>;
+  if (error) return <Error/>;
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-500 p-6">
       <h1 className="text-4xl font-bold text-white mb-8 text-center">Tienda</h1>
@@ -27,8 +45,6 @@ export default function Home() {
         <Cart />
       </div>
       </div>
-
-      
     </div>
   );
 }

@@ -1,12 +1,10 @@
 import { useCart } from "../context/CartContext";
 import { ShoppingCart } from "lucide-react"
+import { formatPrice } from "../utils";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
 
-const formatPrice = (price) => {
-    return `$${price.toLocaleString()}`
-  }
 
   return (
     <div className="backdrop-blur-lg bg-white/10 border border-white/20 shadow-2xl rounded-lg">
