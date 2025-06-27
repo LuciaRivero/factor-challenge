@@ -56,7 +56,7 @@ export async function updateClientPurchase(
   purchaseAmount
 ) {
   try {
-    const response = await fetch(`${BASE_URL}/${userId}`, {
+    const response = await fetch(`${BASE_URL}/clients/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
