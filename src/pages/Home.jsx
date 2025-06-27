@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
 import Loader from '../components/Loader';
 import Error from '../components/Error'
+import Header from  '../components/Header'
 
 import { fetchProducts } from '../services/index';
 
@@ -31,7 +32,7 @@ export default function Home() {
   if (error) return <Error/>;
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-500 p-6">
-      <h1 className="text-4xl font-bold text-white mb-8 text-center">Tienda</h1>
+      <Header textHead="Tienda"/>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8">
           

@@ -47,3 +47,36 @@ export async function fetchPromotionalDate() {
     throw error;
   }
 }
+
+export async function updateClientPurchase(
+  userId,
+  userVip,
+  cartData,
+  purchaseDate,
+  purchaseAmount
+) {
+  try {
+    const response = await fetch(`${BASE_URL}/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cart: cartData,
+        vip: userVip,
+        dateOfLastPurchase: purchaseDate,
+        lastPurchaseAmount: purchaseAmount,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("No se pudo actualizar el cliente");
+    }
+
+    const updatedClient = await response.json();
+    console.log("Cliente actualizado:", updatedClient);
+    return updatedClient;
+  } catch (error) {
+    console.error("Error al actualizar el cliente:", error);
+  }
+}

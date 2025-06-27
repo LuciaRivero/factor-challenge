@@ -4,9 +4,35 @@
       "id": "f8712ec1-8ed0-4683-8464-ddf3a704103f",
       "name": "Carlos",
       "password": "1234",
-      "vip": true,
-      "dateOfLastPurchase": "2025-06-15",
-      "lastPurchaseAmount": 5
+      "vip": false,
+      "dateOfLastPurchase": "2025-06-27",
+      "lastPurchaseAmount": 7900,
+      "cart": [
+        {
+          "id": "0eb53e07-7a34-762f-b3a0-bec69c646cw5",
+          "name": "Libro",
+          "price": 1500,
+          "quantity": 1
+        },
+        {
+          "id": "0eb53e07-7a34-572f-b3a0-bec69c646cw5",
+          "name": "Mochila",
+          "price": 3400,
+          "quantity": 1
+        },
+        {
+          "id": "0eb53e07-7a34-482f-b3a0-bec634646cw5",
+          "name": "Auriculares",
+          "price": 1000,
+          "quantity": 1
+        },
+        {
+          "id": "0eb53e07-7a34-482f-b3a0-bert9c646cw5",
+          "name": "Anteojos",
+          "price": 2000,
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "3b5ef007-d2c8-4d69-953e-bae2111ae639",
@@ -46,12 +72,12 @@
     {
       "id": "0eb53e07-7a34-482f-b3a0-bert9c646cw5",
       "name": "Anteojos",
-      "price": 20000
+      "price": 2000
     },
     {
       "id": "0eb53e07-7a34-482f-b3a0-bec634646cw5",
       "name": "Auriculares",
-      "price": 10000
+      "price": 1000
     },
     {
       "id": "0eb53e07-7a34-762f-b3a0-bec69c646cw5",

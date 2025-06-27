@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { ShoppingCart, CreditCard, Tag,} from "lucide-react"
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-import {fetchPromotionalDate} from '../services/index'
+import {fetchPromotionalDate, updateClientPurchase} from '../services/index'
 import { formatPrice, getPartialPrice, discount25, checkApplicableDiscount } from "../utils";
+import Header from "../components/Header";
 import Loader from '../components/Loader';
 import Error from '../components/Error'
 
@@ -21,31 +22,36 @@ const { user } = useAuth();
 
  
 
- useEffect(() => {
-     const getPromotionalDate = async () => {
-       try {
-         const data = await fetchPromotionalDate();
-         setDatePromotional(data);
-       } catch (err) {
-         setError(err);
-       } finally {
-         setLoading(false);
-       }
-     };
- 
-     getPromotionalDate();
-   }, []);
+    useEffect(() => {
+        const getPromotionalDate = async () => {
+        try {
+            const data = await fetchPromotionalDate();
+            setDatePromotional(data);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+        };
 
-   if (loading) return <Loader/>;
-   if (error) return <Error/>;
+        getPromotionalDate();
+    }, []);
 
-   let applypromotion = cart.length >= 4 && cart.length <=10 ? 
-   cart.length >= 10 ? checkApplicableDiscount(cart, user, datePromotional) : discount25(cart) 
-   : false;
+    if (loading) return <Loader/>;
+    if (error) return <Error/>;
+
+    let applypromotion = cart.length >= 4 && cart.length <=10 ? 
+    cart.length >= 10 ? checkApplicableDiscount(cart, user, datePromotional) : discount25(cart) 
+    : false;
+
+    const today = new Date().toISOString().split("T")[0];
+    const partialAmount = formatPrice(getPartialPrice(cart) - applypromotion.totalWithDiscount)
+    const totalAmount = applypromotion ? partialAmount  : formatPrice(getPartialPrice(cart));
+    const userVip = getPartialPrice(cart) >= 10000 ? true : false;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-500 p-6">
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">Checkout</h1>
+        <Header textHead="Checkout" showBack/>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             <div className="space-y-6">
@@ -135,10 +141,12 @@ const { user } = useAuth();
 
                         <div className="flex justify-between text-white text-xl font-bold">
                             <span>Total</span>
-                            {applypromotion ? formatPrice(getPartialPrice(cart) - applypromotion.totalWithDiscount) :<span>{formatPrice(getPartialPrice(cart))}</span>}
+                            {totalAmount}
                         </div>
 
-                        <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 rounded-2xl shadow-lg transition-all duration-200 hover:shadow-xl text-lg">
+                        <button 
+                            onClick={() =>  updateClientPurchase(user.id, userVip, cart, today, getPartialPrice(cart))}
+                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 rounded-2xl shadow-lg transition-all duration-200 hover:shadow-xl text-lg">
                             Finalizar Compra
                         </button>
                     </div>
